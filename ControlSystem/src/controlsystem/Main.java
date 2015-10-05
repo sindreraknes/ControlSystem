@@ -5,9 +5,9 @@
  */
 package controlsystem;
 
-import javax.swing.JOptionPane;
-import no.hials.crosscom.CrossComClient;
+import no.hials.crosscom.KRL.KRLInt;
 import no.hials.crosscom.KRL.KRLReal;
+import no.hials.crosscom.KRL.KRLVariable;
 
 /**
  *
@@ -18,37 +18,33 @@ public class Main implements Runnable {
     /**
      * @param args the command line arguments
      */
+    private RobotConnection weldingRobot;
+
     public static void main(String[] args) {
-        
+
         new Thread(new Main()).start();
     }
 
     @Override
     public void run() {
-        CrossComClient pipeRobot;
-        //String ipWeldRobot = JOptionPane.showInputDialog(null, "IP Adress of welding robot");
-        //String ipFlangeRobot = JOptionPane.showInputDialog(null, "IP Adress of flange robot");
-        String ipPipeRobot = JOptionPane.showInputDialog(null, "IP Adress pipe robot");
-        try{
-            //CrossComClient weldRobot = new CrossComClient(ipWeldRobot, 7000);
-            //CrossComClient flangeRobot = new CrossComClient(ipFlangeRobot, 7000);
-            pipeRobot = new CrossComClient(ipPipeRobot, 7000);
-            KRLReal jog = KRLReal.OV_JOG();
-            pipeRobot.readVariable(jog);
-            System.out.println(jog);
-            
-            jog.setValue(13.5);
-            pipeRobot.writeVariable(jog);
-            pipeRobot.readVariable(jog);
-            System.out.println(jog);
-            
+        weldingRobot = new RobotConnection("129.241.64.185", 7000);
+        KRLInt jog = new KRLInt("TESTDIS");
+        int i = 1;
+        while (true) {
+            i++;
+            try {
+                Thread.sleep(2000);
+                jog.setValue(1);
+                weldingRobot.getConnection().writeVariable(jog);
+                weldingRobot.getConnection().readVariable(jog);
+                System.out.println(jog);
+                Thread.sleep(2000);
+                jog.setValue(10);
+                weldingRobot.getConnection().writeVariable(jog);
+            } catch (Exception e) {
+
+            }
+
         }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Exception");
-        }
-        
-        
-        
     }
-    
 }
