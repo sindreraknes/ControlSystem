@@ -5,9 +5,6 @@
  */
 package controlsystem;
 
-import no.hials.crosscom.KRL.KRLInt;
-import no.hials.crosscom.KRL.KRLReal;
-import no.hials.crosscom.KRL.KRLVariable;
 
 /**
  *
@@ -28,16 +25,18 @@ public class Main implements Runnable {
     @Override
     public void run() {
         weldingRobot = new RobotConnection("129.241.64.185", 7000);
+        int i = 0;
         while (true) {
+            i++;
             try {
-                Thread.sleep(2000);
-                weldingRobot.writeInt("State", 1);
-                int state = weldingRobot.readInt("State");
+                Thread.sleep(100);
+                weldingRobot.writeState(1);
+                int state = weldingRobot.readState();
                 System.out.println(state);
-                Thread.sleep(2000);
-                weldingRobot.writeInt("State", 10);
-                state = weldingRobot.readInt("State");
-                System.out.println(state);
+                Thread.sleep(100);
+                weldingRobot.writeState(10);
+                state = weldingRobot.readState();
+                System.out.println(state + " Read times: " + i);
             } catch (Exception e) {
 
             }

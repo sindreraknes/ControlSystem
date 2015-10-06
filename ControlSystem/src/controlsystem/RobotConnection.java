@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import no.hials.crosscom.CrossComClient;
 import no.hials.crosscom.KRL.KRLInt;
+import no.hials.crosscom.KRL.structs.KRLFrame;
 
 /**
  *
@@ -18,41 +19,55 @@ public class RobotConnection {
     private CrossComClient connection;
     private String ipAddress;
     private int port;
-    int state;
-    KRLInt variable;
+    private int state;
+    private KRLInt stateChanger;
     public RobotConnection(){
     }
     public RobotConnection(String ipAddress, int port){
         this.port = port;
         this.ipAddress = ipAddress;
         this.state = 0;
+        this.stateChanger = new KRLInt("State");
         connect();
     }
     
     public int getState(){
         return this.state;
     }
-    
-    public void writeInt(String variableName, int value){
-        variable = new KRLInt(variableName);
-        variable.setValue(value);
+    public void writeFrame(String frameName, double X, double Y, double Z, double A, double B, double C){
+        KRLFrame frame = new KRLFrame(frameName);
+        frame.setX(X);
+        frame.setY(Y);
+        frame.setZ(Z);
+        frame.setA(A);
+        frame.setB(B);
+        frame.setC(C);
         try{
-            this.connection.writeVariable(variable);
+            this.connection.writeVariable(frame);
         }
         catch(Exception e){
             System.out.println("Error writing to Robot");
         }
     }
     
-    public int readInt(String variableName){
-        variable = new KRLInt(variableName);
+    public void writeState(int value){
+        stateChanger.setValue(value);
         try{
-            this.connection.readVariable(variable);
+            this.connection.writeVariable(stateChanger);
         }
         catch(Exception e){
             System.out.println("Error writing to Robot");
         }
-        return variable.getValue();
+    }
+    
+    public int readState(){
+        try{
+            this.connection.readVariable(stateChanger);
+        }
+        catch(Exception e){
+            System.out.println("Error reading to Robot");
+        }
+        return stateChanger.getValue();
     }
     
     private void connect(){
