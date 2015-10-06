@@ -8,6 +8,7 @@ package controlsystem;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import no.hials.crosscom.CrossComClient;
+import no.hials.crosscom.KRL.KRLBool;
 import no.hials.crosscom.KRL.KRLInt;
 import no.hials.crosscom.KRL.structs.KRLFrame;
 
@@ -19,21 +20,19 @@ public class RobotConnection {
     private CrossComClient connection;
     private String ipAddress;
     private int port;
-    private int state;
-    private KRLInt stateChanger;
+    private KRLBool goHome;
     public RobotConnection(){
     }
     public RobotConnection(String ipAddress, int port){
         this.port = port;
         this.ipAddress = ipAddress;
-        this.state = 0;
-        this.stateChanger = new KRLInt("State");
+        
+        this.goHome = new KRLBool("goHome");
+        
         connect();
     }
     
-    public int getState(){
-        return this.state;
-    }
+
     public void writeFrame(String frameName, double X, double Y, double Z, double A, double B, double C){
         KRLFrame frame = new KRLFrame(frameName);
         frame.setX(X);
@@ -50,24 +49,24 @@ public class RobotConnection {
         }
     }
     
-    public void writeState(int value){
-        stateChanger.setValue(value);
+    public void setGoHome(boolean state){
+        goHome.setValue(state);
         try{
-            this.connection.writeVariable(stateChanger);
+            this.connection.writeVariable(goHome);
         }
         catch(Exception e){
             System.out.println("Error writing to Robot");
         }
     }
     
-    public int readState(){
+    public boolean readGoHome(){
         try{
-            this.connection.readVariable(stateChanger);
+            this.connection.readVariable(goHome);
         }
         catch(Exception e){
             System.out.println("Error reading to Robot");
         }
-        return stateChanger.getValue();
+        return goHome.getValue();
     }
     
     private void connect(){
