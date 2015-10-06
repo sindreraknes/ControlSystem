@@ -8,6 +8,7 @@ package controlsystem;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import no.hials.crosscom.CrossComClient;
+import no.hials.crosscom.KRL.KRLInt;
 
 /**
  *
@@ -17,12 +18,41 @@ public class RobotConnection {
     private CrossComClient connection;
     private String ipAddress;
     private int port;
+    int state;
+    KRLInt variable;
     public RobotConnection(){
     }
     public RobotConnection(String ipAddress, int port){
         this.port = port;
         this.ipAddress = ipAddress;
+        this.state = 0;
         connect();
+    }
+    
+    public int getState(){
+        return this.state;
+    }
+    
+    public void writeInt(String variableName, int value){
+        variable = new KRLInt(variableName);
+        variable.setValue(value);
+        try{
+            this.connection.writeVariable(variable);
+        }
+        catch(Exception e){
+            System.out.println("Error writing to Robot");
+        }
+    }
+    
+    public int readInt(String variableName){
+        variable = new KRLInt(variableName);
+        try{
+            this.connection.readVariable(variable);
+        }
+        catch(Exception e){
+            System.out.println("Error writing to Robot");
+        }
+        return variable.getValue();
     }
     
     private void connect(){

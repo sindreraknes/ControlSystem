@@ -28,19 +28,16 @@ public class Main implements Runnable {
     @Override
     public void run() {
         weldingRobot = new RobotConnection("129.241.64.185", 7000);
-        KRLInt jog = new KRLInt("TESTDIS");
-        int i = 1;
         while (true) {
-            i++;
             try {
                 Thread.sleep(2000);
-                jog.setValue(1);
-                weldingRobot.getConnection().writeVariable(jog);
-                weldingRobot.getConnection().readVariable(jog);
-                System.out.println(jog);
+                weldingRobot.writeInt("State", 1);
+                int state = weldingRobot.readInt("State");
+                System.out.println(state);
                 Thread.sleep(2000);
-                jog.setValue(10);
-                weldingRobot.getConnection().writeVariable(jog);
+                weldingRobot.writeInt("State", 10);
+                state = weldingRobot.readInt("State");
+                System.out.println(state);
             } catch (Exception e) {
 
             }
