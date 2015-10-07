@@ -21,6 +21,7 @@ public class RobotConnection {
     private String ipAddress;
     private int port;
     private KRLBool goHome;
+    private boolean test = false;
     public RobotConnection(){
     }
     public RobotConnection(String ipAddress, int port){
@@ -32,6 +33,12 @@ public class RobotConnection {
         connect();
     }
     
+    public boolean getTest(){
+        return test;
+    }
+    public void setTest(boolean b){
+        test = b;
+    }
 
     public void writeFrame(String frameName, double X, double Y, double Z, double A, double B, double C){
         KRLFrame frame = new KRLFrame(frameName);
