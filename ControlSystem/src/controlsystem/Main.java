@@ -27,17 +27,14 @@ public class Main implements Runnable {
     public void run() {
         weldingRobot = new RobotConnection("129.241.64.185", 7000);
         gui = new GUI(weldingRobot);
-        gui.setVisible(true);
         
         while (true) {
 
             try {
                 Thread.sleep(100);
                 if(weldingRobot.getTest() == true){
-                    weldingRobot.setGoHome(true);
-                    System.out.println("CLICKED IT");
-                    Thread.sleep(500);
-                    weldingRobot.setGoHome(false);
+                    String test = weldingRobot.readFrame("MYBASE");
+                    System.out.println(test);
                     weldingRobot.setTest(false);
                 }
                 

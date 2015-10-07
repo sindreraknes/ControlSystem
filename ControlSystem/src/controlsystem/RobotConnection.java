@@ -52,8 +52,18 @@ public class RobotConnection {
             this.connection.writeVariable(frame);
         }
         catch(Exception e){
-            System.out.println("Error writing to Robot");
+            System.out.println("Error writing frame to Robot");
         }
+    }
+    public String readFrame(String frameName){
+        KRLFrame frame = new KRLFrame(frameName);
+        try{
+            this.connection.readVariable(frame);
+        }
+        catch(Exception e){
+            System.out.println("Error reading frame from Robot");
+        }
+        return "Frame: "+frameName + ", X: "+frame.getX() +", Y: "+frame.getY() +", Z: "+frame.getZ() +", A: "+frame.getA() +", B :"+frame.getB() +", C : " +frame.getC();
     }
     
     public void setGoHome(boolean state){
