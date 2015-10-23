@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import no.hials.crosscom.CrossComClient;
 import no.hials.crosscom.KRL.KRLBool;
-import no.hials.crosscom.KRL.KRLInt;
 import no.hials.crosscom.KRL.structs.KRLFrame;
 
 /**
@@ -20,24 +19,32 @@ public class RobotConnection {
     private CrossComClient connection;
     private String ipAddress;
     private int port;
-    private KRLBool goHome;
-    private boolean test = false;
     public RobotConnection(){
     }
     public RobotConnection(String ipAddress, int port){
         this.port = port;
         this.ipAddress = ipAddress;
         
-        this.goHome = new KRLBool("goHome");
-        
         connect();
     }
     
-    public boolean getTest(){
-        return test;
+    public boolean readBoolean(KRLBool bool){
+        try{
+            this.connection.readVariable(bool);
+        }
+        catch(Exception e){
+            System.out.println("Error writing bool to Robot");
+        }
+        
+        return bool.getValue();
     }
-    public void setTest(boolean b){
-        test = b;
+    public void writeBoolean(KRLBool bool){
+        try{
+            this.connection.writeVariable(bool);
+        }
+        catch(Exception e){
+            System.out.println("Error writing bool to Robot");
+        }
     }
 
     public void writeFrame(String frameName, double X, double Y, double Z, double A, double B, double C){
@@ -66,25 +73,6 @@ public class RobotConnection {
         return "Frame: "+frameName + ", X: "+frame.getX() +", Y: "+frame.getY() +", Z: "+frame.getZ() +", A: "+frame.getA() +", B :"+frame.getB() +", C : " +frame.getC();
     }
     
-    public void setGoHome(boolean state){
-        goHome.setValue(state);
-        try{
-            this.connection.writeVariable(goHome);
-        }
-        catch(Exception e){
-            System.out.println("Error writing to Robot");
-        }
-    }
-    
-    public boolean readGoHome(){
-        try{
-            this.connection.readVariable(goHome);
-        }
-        catch(Exception e){
-            System.out.println("Error reading to Robot");
-        }
-        return goHome.getValue();
-    }
     
     private void connect(){
         try{

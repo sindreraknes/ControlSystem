@@ -10,14 +10,29 @@ package controlsystem;
  * @author Minions
  */
 public class GUI extends javax.swing.JFrame {
-    private RobotConnection weldingRobot;
+    private RobotConnection KR120;
+    private RobotConnection KR240;
+    private RobotConnection KR16;
+    private RobotConnection KR5;
+    private PLCConnection PLCConnection;
+    
+    
     /**
      * Creates new form GUI
+     * @param KR120
+     * @param KR240
+     * @param KR16
+     * @param KR5
+     * @param PLCConnection
      */
-    public GUI(RobotConnection weldingRobot) {
+    public GUI(RobotConnection KR120, RobotConnection KR240, RobotConnection KR16, RobotConnection KR5, PLCConnection PLCConnection) {
         initComponents();
         this.setVisible(true);
-        this.weldingRobot = weldingRobot;
+        this.KR120 = KR120;
+        this.KR240 = KR240;
+        this.KR16 = KR16;
+        this.KR5 = KR5;
+        this.PLCConnection = PLCConnection;
     }
 
     /**
@@ -91,9 +106,19 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("jButton1");
+        jButton1.setText("Close Gripper");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
-        jButton6.setText("jButton1");
+        jButton6.setText("Open Gripper");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jButton7.setText("jButton1");
 
@@ -112,7 +137,7 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(jButton1)
                     .addComponent(jButton2)
                     .addComponent(jLabel3))
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,11 +171,21 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
-        jButton9.setText("jButton1");
+        jButton9.setText("Close Gripper");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
 
         jButton11.setText("jButton1");
 
-        jButton10.setText("jButton1");
+        jButton10.setText("Open ripper");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
 
         jButton12.setText("jButton1");
 
@@ -253,7 +288,7 @@ public class GUI extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        weldingRobot.setTest(true);
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -267,6 +302,26 @@ public class GUI extends javax.swing.JFrame {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // Open gripper 240
+        PLCConnection.openGripper240();
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // Close gripper 240
+        PLCConnection.closeGripper240();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        // Close gripper 120
+        PLCConnection.closeGripper120();
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        // Open gripper 120
+        PLCConnection.openGripper120();
+    }//GEN-LAST:event_jButton10ActionPerformed
 
    
 
