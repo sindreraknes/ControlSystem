@@ -27,11 +27,6 @@ public class Main implements Runnable {
     private RobotKR5 KR5;
     private PLCConnection PLCConnection;
 
-    // KR240 Robot global variables
-    private KRLBool KR240goHome = new KRLBool("goHome");
-    private KRLBool KR240gotoPipePickup = new KRLBool("gotoPipePickup");
-    private KRLBool KR240positionPipe = new KRLBool("positionPipe");
-
     public static void main(String[] args) {
         new Thread(new Main()).start();
     }
@@ -41,6 +36,7 @@ public class Main implements Runnable {
         //Create connection to the PLC
         PLCConnection = new PLCConnection();
         new Thread(PLCConnection).start();
+        
         //Closest to workstation
         KR120 = new RobotKR120("192.168.250.120", 7000);
         //Not closest to workstation
