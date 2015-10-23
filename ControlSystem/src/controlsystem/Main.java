@@ -28,16 +28,18 @@ public class Main implements Runnable {
     private PLCConnection PLCConnection;
     
     // KR120 Robot global variables
-    private KRLBool KR120Home = new KRLBool("goHome");
+    private KRLBool KR120goHome = new KRLBool("goHome");
     
     // KR240 Robot global variables
-    private KRLBool KR240Home = new KRLBool("goHome");
+    private KRLBool KR240goHome = new KRLBool("goHome");
+    private KRLBool KR240gotoPipePickup = new KRLBool("gotoPipePickup");
+    private KRLBool KR240positionPipe = new KRLBool("positionPipe");
     
     // KR16 Robot global variables
-    private KRLBool KR16Home = new KRLBool("goHome");
+    private KRLBool KR16goHome = new KRLBool("goHome");
     
     // KR5 Robot global variables
-    private KRLBool KR5Home = new KRLBool("goHome");
+    private KRLBool KR5goHome = new KRLBool("goHome");
 
     public static void main(String[] args) {
         new Thread(new Main()).start();
