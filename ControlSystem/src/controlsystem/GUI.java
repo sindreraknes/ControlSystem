@@ -10,10 +10,10 @@ package controlsystem;
  * @author Minions
  */
 public class GUI extends javax.swing.JFrame {
-    private RobotConnection KR120;
-    private RobotConnection KR240;
-    private RobotConnection KR16;
-    private RobotConnection KR5;
+    private RobotKR120 KR120;
+    private RobotKR240 KR240;
+    private RobotKR16 KR16;
+    private RobotKR5 KR5;
     private PLCConnection PLCConnection;
     
     
@@ -25,7 +25,7 @@ public class GUI extends javax.swing.JFrame {
      * @param KR5
      * @param PLCConnection
      */
-    public GUI(RobotConnection KR120, RobotConnection KR240, RobotConnection KR16, RobotConnection KR5, PLCConnection PLCConnection) {
+    public GUI(RobotKR120 KR120, RobotKR240 KR240, RobotKR16 KR16, RobotKR5 KR5, PLCConnection PLCConnection) {
         initComponents();
         this.setVisible(true);
         this.KR120 = KR120;

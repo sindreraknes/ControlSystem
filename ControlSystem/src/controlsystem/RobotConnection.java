@@ -77,6 +77,7 @@ public class RobotConnection {
     private void connect(){
         try{
             setConnection(new CrossComClient(getIpAddress(), getPort()));
+            System.out.println("Robot connected");
         }
         catch(UnknownHostException e){
             System.err.println("Unknown host exception");
