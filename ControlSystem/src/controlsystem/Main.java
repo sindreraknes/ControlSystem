@@ -5,6 +5,11 @@
  */
 package controlsystem;
 
+import java.io.OutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import no.hials.crosscom.KRL.KRLBool;
+
 
 /**
  *
@@ -17,6 +22,8 @@ public class Main implements Runnable {
      */
     private GUI gui;
     private RobotConnection weldingRobot;
+    private ServerSocket serverSocket;
+    private byte[] byteArray = new byte [8];
 
     public static void main(String[] args) {
 
@@ -25,23 +32,30 @@ public class Main implements Runnable {
 
     @Override
     public void run() {
-        weldingRobot = new RobotConnection("129.241.64.185", 7000);
-        gui = new GUI(weldingRobot);
+       // 1 - Open, 2 - Close, [0] - 120, [1] - 240
+       byteArray[0] = 1;
+       byteArray[1] = 1;
+       byteArray[2] = 0;
+       byteArray[3] = 0;
+       byteArray[4] = 0;
+       byteArray[5] = 0;
+       byteArray[6] = 0;
+       byteArray[7] = 0;
         
-        while (true) {
-
-            try {
-                Thread.sleep(100);
-                if(weldingRobot.getTest() == true){
-                    String test = weldingRobot.readFrame("MYBASE");
-                    System.out.println(test);
-                    weldingRobot.setTest(false);
-                }
-                
-            } catch (Exception e) {
-
+        try{
+            serverSocket = new ServerSocket(7005);
+            
+            while(true){
+                Socket connectionSocket = serverSocket.accept();
+                System.out.println("Connection established");
+                OutputStream os = connectionSocket.getOutputStream();
+                os.write(byteArray);
+                os.flush();
+            
             }
-
         }
+        catch (Exception e){ 
+        }
+        
     }
 }
